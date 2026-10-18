@@ -4,10 +4,10 @@
 
 ## Pages principales
 
-- [Accueil](https://ton-domaine.com/): présentation de l'application
-- [Inscription](https://ton-domaine.com/signup): création de compte
+- [Accueil](https://guidiny.fit/): présentation de l'application
+- [Inscription](https://guidiny.fit/signup): création de compte
 
 ## Informations
 
-- Langue : français
-- Contact : contact@ton-domaine.com
+- Langue : english
+- Contact : guidiny.fit
