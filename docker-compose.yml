@@ -2,38 +2,40 @@ services:
   backend:
     build:
       context: ./backend
-      network: host
-    ports:
-      - "3001:3001"
     environment:
       - MONGO_URL=mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@mongo:27017/${MONGO_DB}?authSource=admin&replicaSet=rs0
       - JWT_SECRET=${JWT_SECRET}
       - FRONTEND_URL=${FRONTEND_URL}
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - NODE_ENV=${NODE_ENV}
+      - PORT=3001
     volumes:
-      - ./backend/uploads:/app/uploads
+      - /home/guidiny/uploads:/app/uploads
     depends_on:
       mongo:
         condition: service_healthy
+    restart: unless-stopped
+    mem_limit: 300m
 
   frontend:
     build:
       context: ./frontend
-      network: host
     ports:
-      - "8082:80"
+      - "80:80"
     depends_on:
       - backend
+    restart: unless-stopped
 
   mongo:
     image: mongo:7
-    command: ["--replSet", "rs0", "--bind_ip_all", "--keyFile", "/etc/mongo-keyfile"]
+    command: ["--replSet", "rs0", "--bind_ip_all", "--keyFile", "/etc/mongo-keyfile", "--wiredTigerCacheSizeGB", "0.25"]
     environment:
       - MONGO_INITDB_ROOT_USERNAME=${MONGO_USERNAME}
       - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}
       - MONGO_INITDB_DATABASE=${MONGO_DB}
     volumes:
       - mongo-data:/data/db
-      - ./mongo-keyfile:/etc/mongo-keyfile:ro
+      - /home/guidiny/app/mongo-keyfile:/etc/mongo-keyfile:ro
     healthcheck:
       test: >
         mongosh --quiet -u "$${MONGO_INITDB_ROOT_USERNAME}" -p "$${MONGO_INITDB_ROOT_PASSWORD}" --authenticationDatabase admin --eval
@@ -41,6 +43,8 @@ services:
       interval: 5s
       timeout: 10s
       retries: 10
+    restart: unless-stopped
+    mem_limit: 400m
 
 volumes:
   mongo-data:

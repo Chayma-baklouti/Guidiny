@@ -1,11 +1,12 @@
-FROM node:alpine AS builder
+FROM node:20-alpine AS builder
 WORKDIR /app
-COPY package*.json ./
-COPY . .
 ENV GENERATE_SOURCEMAP=false
-RUN npm ci --legacy-peer-deps && \
-    npm run build && \
-    npm cache clean --force
+ENV NODE_OPTIONS=--max-old-space-size=700
+COPY package*.json ./
+RUN npm ci --legacy-peer-deps
+COPY . .
+RUN npm run build && npm cache clean --force
+
 FROM nginx:alpine
 COPY --from=builder /app/build /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
