@@ -1,0 +1,13 @@
+# Guidiny
+
+> Application cartographique collaborative pour signaler des dangers et partager des lieux (restaurants, magasins, etc.) sur une carte.
+
+## Pages principales
+
+- [Accueil](https://ton-domaine.com/): présentation de l'application
+- [Inscription](https://ton-domaine.com/signup): création de compte
+
+## Informations
+
+- Langue : français
+- Contact : contact@ton-domaine.com

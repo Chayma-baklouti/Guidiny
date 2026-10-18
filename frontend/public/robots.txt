@@ -1,0 +1,7 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Disallow: /api/
+Disallow: /uploads/
+Disallow: /static/
+Disallow: /editor
+Disallow: /dashboard
