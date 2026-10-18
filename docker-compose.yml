@@ -40,9 +40,10 @@ services:
       test: >
         mongosh --quiet -u "$${MONGO_INITDB_ROOT_USERNAME}" -p "$${MONGO_INITDB_ROOT_PASSWORD}" --authenticationDatabase admin --eval
         "try { rs.status().ok } catch (e) { rs.initiate({_id:'rs0',members:[{_id:0,host:'mongo:27017'}]}).ok }"
-      interval: 5s
-      timeout: 10s
-      retries: 10
+           interval: 60s
+      timeout: 50s
+      retries: 5
+      start_period: 120s
     restart: unless-stopped
     mem_limit: 400m
 
